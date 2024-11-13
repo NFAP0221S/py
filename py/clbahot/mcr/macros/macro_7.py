@@ -14,7 +14,7 @@ class Macro7:
             self.running = True
             self.log("7키 매크로 ON")
             self.update_indicator(True)
-            threading.Thread(target=self.run, daemon=True).start()
+            threading.Thread(target=self.execute, daemon=True).start()
         elif force_off and self.running:
             self.running = False
             self.log("7키 매크로 OFF")
@@ -29,8 +29,8 @@ class Macro7:
                 self.log("7키 매크로 OFF")
                 self.update_indicator(False)
 
-    def run(self):
-        while self.running:
-            pyautogui.press('7')
-            pyautogui.press('enter')
-            threading.Event().wait(0.1)
+    def execute(self):
+        self.log("7매크로 실행")
+        pyautogui.press('8')
+        pyautogui.press('left')
+        pyautogui.press('enter')

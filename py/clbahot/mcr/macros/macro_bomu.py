@@ -38,7 +38,7 @@ class MacroBomu:
                 pyautogui.press('0')
                 pyautogui.press('enter')
                 # 186초 대기
-                self.stop_event.wait(185)
+                self.stop_event.wait(15)
         except Exception as e:
             self.log(f"Bomu 매크로 오류: {e}")
             self.running = False

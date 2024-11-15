@@ -56,6 +56,21 @@ class MainGUI:
         self.macro_8_indicator = tk.Canvas(self.macro_8_frame, width=20, height=20)
         self.macro_8_indicator.create_oval(5, 5, 15, 15, fill="red", tags="circle")
         self.macro_8_indicator.pack(side="right")
+
+        # 8키 전용 매크로 버튼과 상태 표시기
+        self.macro_9_frame = tk.Frame(self.root)
+        self.macro_9_frame.pack(pady=5)
+        self.macro_9_btn = tk.Button(
+            self.macro_9_frame, 
+            text="9키 매크로 ON", 
+            command=self.toggle_macro_9, 
+            bg="#85C1E9", 
+            state='disabled'  # 기본 매크로가 꺼졌을 때 비활성화
+        )
+        self.macro_9_btn.pack(side="left")
+        self.macro_9_indicator = tk.Canvas(self.macro_9_frame, width=20, height=20)
+        self.macro_9_indicator.create_oval(5, 5, 15, 15, fill="red", tags="circle")
+        self.macro_9_indicator.pack(side="right")
         
         # Q 매크로 버튼 (일회성 실행)
         self.macro_q_frame = tk.Frame(self.root)
@@ -153,6 +168,14 @@ class MainGUI:
                 self.macro_8_btn.config(bg="#5DADE2", text="8키 매크로 OFF")
             else:
                 self.macro_8_btn.config(bg="#85C1E9", text="8키 매크로 ON")
+
+    def toggle_macro_9(self):
+        if 'macro_9' in self.macros:
+            self.macros['macro_9'].toggle()
+            if self.macros['macro_9'].running:
+                self.macro_9_btn.config(bg="#5DADE2", text="9키 매크로 OFF")
+            else:
+                self.macro_9_btn.config(bg="#85C1E9", text="9키 매크로 ON")
     
     def execute_macro_q(self):
         if 'macro_q' in self.macros:

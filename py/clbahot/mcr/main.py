@@ -5,6 +5,7 @@ from gui.main_gui import MainGUI
 from macros.base_macro import BaseMacro
 from macros.macro_7 import Macro7
 from macros.macro_8 import Macro8
+from macros.macro_9 import Macro9
 from macros.macro_q import MacroQ
 from macros.macro_heal import MacroHeal
 from macros.macro_bomu import MacroBomu
@@ -39,6 +40,10 @@ def main():
             log_function=logger.log_message,
             update_indicator_func=lambda state: update_indicator(gui.macro_8_indicator, state)
         ),
+        'macro_9': Macro9(
+            log_function=logger.log_message,
+            update_indicator_func=lambda state: update_indicator(gui.macro_9_indicator, state)
+        ),
         'macro_q': MacroQ(
             log_function=logger.log_message
         ),
@@ -64,6 +69,8 @@ def main():
                 macros['macro_7'].toggle()
             elif key.char == '\\':
                 macros['macro_8'].toggle()
+            elif key.char == '=':
+                macros['macro_9'].toggle()
             elif key.char == 'q':
                 macros['macro_q'].execute()
             elif key.char == '`':
@@ -94,6 +101,8 @@ def turn_off_all_macros(macros, gui):
     gui.macro_7_indicator.itemconfig("circle", fill="red")
     gui.macro_8_btn.config(state='disabled')
     gui.macro_8_indicator.itemconfig("circle", fill="red")
+    gui.macro_9_btn.config(state='disabled')
+    gui.macro_9_indicator.itemconfig("circle", fill="red")
     gui.macro_q_btn.config(state='disabled')
     gui.macro_q_indicator.itemconfig("circle", fill="red")
     gui.macro_heal_btn.config(state='disabled')

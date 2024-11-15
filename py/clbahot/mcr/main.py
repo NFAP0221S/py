@@ -62,6 +62,8 @@ def main():
                 macros['base'].toggle()
             elif key.char == ']':
                 macros['macro_7'].toggle()
+            elif key.char == '\\':
+                macros['macro_8'].toggle()
             elif key.char == 'q':
                 macros['macro_q'].execute()
             elif key.char == '`':

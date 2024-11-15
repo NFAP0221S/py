@@ -31,6 +31,6 @@ class Macro7:
 
     def execute(self):
         self.log("7매크로 실행")
-        pyautogui.press('8')
+        pyautogui.press('5')
         pyautogui.press('left')
         pyautogui.press('enter')

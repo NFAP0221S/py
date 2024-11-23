@@ -34,3 +34,13 @@ class Macro7:
         pyautogui.press('5')
         pyautogui.press('left')
         pyautogui.press('enter')
+
+        pyautogui.press('5')
+        pyautogui.press('left')
+        pyautogui.press('enter')
+        pyautogui.press('5')
+        pyautogui.press('left')
+        pyautogui.press('enter')
+        pyautogui.press('5')
+        pyautogui.press('left')
+        pyautogui.press('enter')

@@ -34,3 +34,13 @@ class Macro8:
         pyautogui.press('6')
         pyautogui.press('left')
         pyautogui.press('enter')
+
+        pyautogui.press('6')
+        pyautogui.press('left')
+        pyautogui.press('enter')
+        pyautogui.press('6')
+        pyautogui.press('left')
+        pyautogui.press('enter')
+        pyautogui.press('6')
+        pyautogui.press('left')
+        pyautogui.press('enter')

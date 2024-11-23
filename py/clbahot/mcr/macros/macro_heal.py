@@ -13,5 +13,3 @@ class MacroHeal:
         pyautogui.press('enter')
         pyautogui.press('1')
         pyautogui.press('enter')
-
-

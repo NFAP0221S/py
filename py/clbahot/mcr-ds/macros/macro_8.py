@@ -31,10 +31,16 @@ class Macro8:
 
     def execute(self):
         self.log("7매크로 실행")
+        pyautogui.press('esc')
         pyautogui.press('6')
         pyautogui.press('left')
         pyautogui.press('enter')
-
+        pyautogui.press('6')
+        pyautogui.press('left')
+        pyautogui.press('enter')
+        pyautogui.press('6')
+        pyautogui.press('left')
+        pyautogui.press('enter')
         pyautogui.press('6')
         pyautogui.press('left')
         pyautogui.press('enter')

@@ -82,11 +82,15 @@ def main():
                 pyautogui.press('u')
                 pyautogui.press('u')
                 pyautogui.press('6')
-            elif key.char == 'a':
-                pyautogui.press('4')
-                pyautogui.press('5')
+            elif key.char == '2':
+                pyautogui.press('a')
+                # pyautogui.press('5')
             elif key.char == 'z':
                 pyautogui.press(',')
+            elif key == keyboard.Key.insert:
+                pyautogui.press('7')
+                pyautogui.press('home')
+                pyautogui.press('enter')
             elif key == keyboard.Key.insert:
                 pyautogui.press('7')
                 pyautogui.press('home')

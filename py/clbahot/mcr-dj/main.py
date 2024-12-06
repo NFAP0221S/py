@@ -85,16 +85,16 @@ def main():
             elif key.char == '2':
                 pyautogui.press('a')
                 # pyautogui.press('5')
-            elif key.char == 'z':
-                pyautogui.press(',')
-            elif key == keyboard.Key.insert:
-                pyautogui.press('7')
-                pyautogui.press('home')
-                pyautogui.press('enter')
-            elif key == keyboard.Key.insert:
-                pyautogui.press('7')
-                pyautogui.press('home')
-                pyautogui.press('enter')
+            # elif key.char == 'z':
+            #     pyautogui.press(',')
+            # elif key == keyboard.Key.insert:
+            #     pyautogui.press('7')
+            #     pyautogui.press('home')
+            #     pyautogui.press('enter')
+            # elif key == keyboard.Key.insert:
+            #     pyautogui.press('7')
+            #     pyautogui.press('home')
+            #     pyautogui.press('enter')
             # Bomu 매크로는 버튼으로만 제어
             # elif key.char == 'b':  # 필요 시 추가
             #     macros['macro_bomu'].toggle()

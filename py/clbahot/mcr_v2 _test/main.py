@@ -11,7 +11,7 @@ class App:
     def __init__(self, root):
         self.root = root
         self.root.title("Custom Program")
-        self.root.geometry("500x800")  # Adjusted height for logs
+        self.root.geometry("800x800")  # Adjusted height for logs
 
         # Create Main Frame
         main_frame = tk.Frame(self.root)
@@ -133,12 +133,13 @@ class App:
 
     def toggle_mp_monitoring(self):
         mp_area = self.low_items[2].get("mp_area")
+        input_value_entry = self.low_items[2]["value"]  # Input Value entry widget
+        toggle_button = self.low_items[2]["toggle_button"]
+        log_text = self.low_items[2]["log_text"]
+
         if not mp_area:
             messagebox.showerror("Error", "Please set the MP bar area first.")
             return
-
-        toggle_button = self.low_items[2]["toggle_button"]
-        log_text = self.low_items[2]["log_text"]
 
         if not self.low_items[2]["monitoring"]:
             # Start monitoring
@@ -154,7 +155,13 @@ class App:
                     total_pixels = mp_bar.shape[0] * mp_bar.shape[1]
                     mp_percentage = (white_pixels / total_pixels) * 100
 
-                    log_message = f"Current MP: {mp_percentage:.2f}%"
+                    try:
+                        input_value = float(input_value_entry.get())
+                        adjusted_mp_percentage = (mp_percentage / input_value) * 100
+                        log_message = f"Adjusted MP: {adjusted_mp_percentage:.2f}%"
+                    except ValueError:
+                        log_message = f"Current MP: {mp_percentage:.2f}%"
+
                     print(log_message)
 
                     log_text.config(state="normal")

@@ -106,8 +106,8 @@ class AutomationProgram:
         # 액션2: 토글 버튼 있음, 활성화 시 키 입력으로 'uuuu6' 실행
         self.action2 = ActionLow(
             self.scrollable_frame, 
-            key='[',  # Action2의 키 (예: 's')
-            description='혼마 왼쪽 무한돌리기', 
+            key='2',  # Action2의 키 (예: 's')
+            description='투평', 
             is_active=True,
             can_toggle=True  # 토글 버튼 있음
         )
@@ -115,8 +115,8 @@ class AutomationProgram:
         # 액션3: 토글 버튼 있음, 활성화 시 키 입력으로 '77778' 실행
         self.action3 = ActionLow(
             self.scrollable_frame, 
-            key=']',  # Action3의 키 (예: 'd')
-            description='혼마 왼쪽 한번 돌리기', 
+            key='3',  # Action3의 키 (예: 'd')
+            description='비투평', 
             is_active=True,  # 초기 상태 비활성화
             can_toggle=True  # 토글 버튼 있음
         )
@@ -257,31 +257,25 @@ class AutomationProgram:
 
     def execute_action2(self):
         """
-        Action2: 혼마 왼쪽 무한 돌리기
+        Action2: 투평
         """
         if self.action2.active_var.get():
             print("Executing Action2: 혼마 왼쪽 돌리기")
             try:
-                pyautogui.press('esc')  # 키 누르기
-                while True:
-                    if self.stop_event_action2.is_set():
-                        print("Action2 execution stopped.")
-                        break
-                    
-                    pyautogui.typewrite(['6', 'left', 'enter'], interval=0.02)
+                pyautogui.typewrite(['3', 'a', 'a', '2', '2', 'a', 'a'], interval=0.02)
             except Exception as e:
                 print(f"Error during Action2 execution: {e}")
 
     def execute_action3(self):
         """
-        Action3: 혼마 왼쪽 한번 돌리기
+        Action3: 비투평
         """
         if self.action3.active_var.get():
             print("Executing Action3: 77778")
             try:
-                pyautogui.press('esc')  # 키 누르기
-                pyautogui.typewrite(['7', 'left', 'enter'], interval=0.02)
-                # time.sleep(0.01)
+                # pyautogui.press('2')
+                # pyautogui.press('a')
+                pyautogui.typewrite(['2', 'a'], interval=0.05)
             except Exception as e:
                 print(f"Error during Action3 execution: {e}")
 

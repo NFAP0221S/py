@@ -260,9 +260,12 @@ class AutomationProgram:
         Action2: 투평
         """
         if self.action2.active_var.get():
-            print("Executing Action2: 혼마 왼쪽 돌리기")
+            print("Executing Action2: 투평")
             try:
-                pyautogui.typewrite(['3', 'a', 'a', '2', '2', 'a', 'a'], interval=0.02)
+                # pyautogui.typewrite(['a'], interval=0.02)
+                pyautogui.press('a')
+                pyautogui.press('1')
+                pyautogui.typewrite(['u', 'a', 'u', 'a'], interval=0.08)
             except Exception as e:
                 print(f"Error during Action2 execution: {e}")
 

@@ -255,6 +255,15 @@ class AutomationProgram:
                         # 액션 비활성화
                         action.active_var.set(False)
                         action.active_button.update_color('red')
+
+                    elif action == self.action6 and self.action6_thread and self.action6_thread.is_alive():
+                        print("Stopping Action6's execution.")
+                        self.stop_event_action6.set()
+                        self.action6_thread.join()
+                        self.stop_event_action6.clear()
+                        # 액션 비활성화
+                        action.active_var.set(False)
+                        action.active_button.update_color('red')
             
             # 0.5초 후 중지된 액션들만 다시 활성화
             self.root.after(500, self.resume_actions)
@@ -342,12 +351,16 @@ class AutomationProgram:
         """
         Action6: u4 입력
         """
-        # if self.action6.active_var.get():
-        #     print("Executing Action6: u4 input")
-        #     try:
-        #         pyautogui.typewrite(['u', 'u', 'u', 'u'], interval=0.08)
-        #     except Exception as e:
-        #         print(f"Error during Action6 execution: {e}")
+        if self.action6.active_var.get():
+            print("Executing Action2: 혼마 왼쪽 돌리기")
+            try:
+                while True:
+                    if self.stop_event_action6.is_set():
+                        print("Action2 execution stopped.")
+                        break
+                    pyautogui.typewrite(['a'], interval=0.02)
+            except Exception as e:
+                print(f"Error during Action2 execution: {e}")
 
     def execute_action7(self):
         """

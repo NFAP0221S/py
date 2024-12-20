@@ -303,24 +303,24 @@ class AutomationProgram:
         Action3: 혼마 왼쪽 한번 돌리기
         """
         if self.action3.active_var.get():
-            # print("Executing Action3: 77778")
-            # try:
-            #     pyautogui.press('esc')  # 키 누르기
-            #     pyautogui.typewrite(['7', 'left', 'enter'], interval=0.02)
-            #     # time.sleep(0.01)
-            # except Exception as e:
-            #     print(f"Error during Action3 execution: {e}")
+            print("Executing Action3: 77778")
             try:
                 pyautogui.press('esc')  # 키 누르기
-                while True:
-                    if self.stop_event_action3.is_set():
-                        print("Action2 execution stopped.")
-                        break
-                    
-                    # pyautogui.typewrite(['6', 'left', 'enter'], interval=0.02)
-                    pyautogui.typewrite(['7', 'left', 'enter'], interval=0.02)
+                pyautogui.typewrite(['7', 'left', 'enter'], interval=0.02)
+                # time.sleep(0.01)
             except Exception as e:
-                print(f"Error during Action2 execution: {e}")
+                print(f"Error during Action3 execution: {e}")
+            # try:
+            #     pyautogui.press('esc')  # 키 누르기
+            #     while True:
+            #         if self.stop_event_action3.is_set():
+            #             print("Action2 execution stopped.")
+            #             break
+                    
+            #         # pyautogui.typewrite(['6', 'left', 'enter'], interval=0.02)
+            #         pyautogui.typewrite(['7', 'left', 'enter'], interval=0.02)
+            # except Exception as e:
+            #     print(f"Error during Action2 execution: {e}")
 
     def execute_action4(self):
         """

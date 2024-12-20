@@ -108,7 +108,7 @@ class AutomationProgram:
             self.scrollable_frame, 
             key='2',  # Action2의 키 (예: 's')
             description='투평', 
-            is_active=False,
+            is_active=True,
             can_toggle=True  # 토글 버튼 있음
         )
 
@@ -273,14 +273,16 @@ class AutomationProgram:
 
     def execute_action2(self):
         """
-        Action2: 투평
+        Action2: 평
         """
         if self.action2.active_var.get():
-            print("Executing Action2: 혼마 왼쪽 돌리기")
+            print("Executing Action6: u4 input")
             try:
-                pyautogui.typewrite(['a'], interval=0.02)
+                pyautogui.press('a')
+                pyautogui.press('3')
+                pyautogui.typewrite(['u', 'a', 'u', 'a'], interval=0.08)
             except Exception as e:
-                print(f"Error during Action2 execution: {e}")
+                print(f"Error during Action6 execution: {e}")
 
     def execute_action3(self):
         """
@@ -304,60 +306,60 @@ class AutomationProgram:
         """
         Action4: 376초마다 9 입력
         """
-        if self.action4.active_var.get():
-            print("Executing Action4: Periodic 9 input")
-            try:
-                last_time = 0
-                while not self.stop_event_action4.is_set():
-                    current_time = time.time()
-                    if current_time - last_time >= 376:
-                        pyautogui.press('9')
-                        last_time = current_time
-                        print("Executed 9")
-                    time.sleep(0.1)
-            except Exception as e:
-                print(f"Error during Action4 execution: {e}")
+        # if self.action4.active_var.get():
+        #     print("Executing Action4: Periodic 9 input")
+        #     try:
+        #         last_time = 0
+        #         while not self.stop_event_action4.is_set():
+        #             current_time = time.time()
+        #             if current_time - last_time >= 376:
+        #                 pyautogui.press('9')
+        #                 last_time = current_time
+        #                 print("Executed 9")
+        #             time.sleep(0.1)
+        #     except Exception as e:
+        #         print(f"Error during Action4 execution: {e}")
 
     def execute_action5(self):
         """
         Action5: 186초마다 0 입력
         """
-        if self.action5.active_var.get():
-            print("Executing Action5: Periodic 0 input")
-            try:
-                last_time = 0
-                while not self.stop_event_action5.is_set():
-                    current_time = time.time()
-                    if current_time - last_time >= 186:
-                        pyautogui.press('0')
-                        last_time = current_time
-                        print("Executed 0")
-                    time.sleep(0.1)
-            except Exception as e:
-                print(f"Error during Action5 execution: {e}")
+        # if self.action5.active_var.get():
+        #     print("Executing Action5: Periodic 0 input")
+        #     try:
+        #         last_time = 0
+        #         while not self.stop_event_action5.is_set():
+        #             current_time = time.time()
+        #             if current_time - last_time >= 186:
+        #                 pyautogui.press('0')
+        #                 last_time = current_time
+        #                 print("Executed 0")
+        #             time.sleep(0.1)
+        #     except Exception as e:
+        #         print(f"Error during Action5 execution: {e}")
 
     def execute_action6(self):
         """
         Action6: u4 입력
         """
-        if self.action6.active_var.get():
-            print("Executing Action6: u4 input")
-            try:
-                pyautogui.typewrite(['u', 'u', 'u', 'u'], interval=0.08)
-            except Exception as e:
-                print(f"Error during Action6 execution: {e}")
+        # if self.action6.active_var.get():
+        #     print("Executing Action6: u4 input")
+        #     try:
+        #         pyautogui.typewrite(['u', 'u', 'u', 'u'], interval=0.08)
+        #     except Exception as e:
+        #         print(f"Error during Action6 execution: {e}")
 
     def execute_action7(self):
         """
         Action7: 옵션+8 입력
         """
-        if self.action7.active_var.get():
-            print("Executing Action7: Option+8 input")
-            try:
-                with pyautogui.hold('option'):
-                    pyautogui.press('8')
-            except Exception as e:
-                print(f"Error during Action7 execution: {e}")
+        # if self.action7.active_var.get():
+        #     print("Executing Action7: Option+8 input")
+        #     try:
+        #         with pyautogui.hold('option'):
+        #             pyautogui.press('8')
+        #     except Exception as e:
+        #         print(f"Error during Action7 execution: {e}")
 
 
 

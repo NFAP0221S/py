@@ -1,6 +1,6 @@
 import tkinter as tk
 import pyautogui
-from pynput import keyboard
+from pynput import keyboard, mouse
 import json
 import os
 import threading
@@ -26,9 +26,14 @@ class CircularButton(tk.Canvas):
         self.bg = new_color
         self.draw_circle()
 
-    def on_click(self, event):
-        if self.command:
-            self.command()
+    def on_click(self, x, y, button, pressed):
+        if button == mouse.Button.left and pressed:  # 왼쪽 버튼이 눌렸을 때
+            if self.action8.active_var.get():
+                print("Action8: Left Click Detected")
+                # Action8을 별도의 스레드에서 실행
+                if not (self.action8_thread and self.action8_thread.is_alive()):
+                    self.action8_thread = threading.Thread(target=self.execute_action8)
+                    self.action8_thread.start()
 
 class ActionLow:
     def __init__(self, master, key='', description='', is_active=True, can_toggle=True):
@@ -157,8 +162,16 @@ class AutomationProgram:
             can_toggle=True
         )
 
+        self.action8 = ActionLow(
+            self.scrollable_frame, 
+            key='left',  # 마우스 왼쪽 버튼
+            description='좌클릭시 , 입력', 
+            is_active=True,
+            can_toggle=True
+        )
+
         # 관리할 액션 목록 업데이트
-        self.managed_actions = [self.action2, self.action3, self.action4, self.action5, self.action6, self.action7]
+        self.managed_actions = [self.action2, self.action3, self.action4, self.action5, self.action6, self.action7, self.action8 ]
 
         # 중지를 위한 이벤트
         self.stop_event_action2 = threading.Event()
@@ -167,12 +180,14 @@ class AutomationProgram:
         self.stop_event_action5 = threading.Event()
         self.stop_event_action6 = threading.Event()
         self.stop_event_action7 = threading.Event()
+        self.stop_event_action8 = threading.Event()
         self.action2_thread = None  # Thread handle for Action2
         self.action3_thread = None  # Thread handle for Action3
         self.action4_thread = None  # Thread handle for Action4
         self.action5_thread = None  # Thread handle for Action4
         self.action6_thread = None  # Thread handle for Action4
         self.action7_thread = None  # Thread handle for Action4
+        self.action8_thread = None
 
         # 키 리스너 설정
         self.listener = keyboard.Listener(on_press=self.on_press)
@@ -214,6 +229,11 @@ class AutomationProgram:
                 'key': self.action7.key_input.get(),
                 'description': self.action7.desc_input.get(),
                 'active': self.action7.active_var.get()
+            },
+            {
+                'key': self.action8.key_input.get(),
+                'description': self.action8.desc_input.get(),
+                'active': self.action8.active_var.get()
             }
         ]
         
@@ -365,6 +385,17 @@ class AutomationProgram:
         #             pyautogui.press('8')
         #     except Exception as e:
         #         print(f"Error during Action7 execution: {e}")
+
+    def execute_action8(self):
+        """
+        Action8: 좌클릭 시 , 입력
+        """
+        if self.action8.active_var.get():
+            print("Executing Action8: , input")
+            try:
+                pyautogui.press(',')
+            except Exception as e:
+                print(f"Error during Action8 execution: {e}")    
 
 
 

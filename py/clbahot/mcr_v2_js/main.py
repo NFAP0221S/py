@@ -223,50 +223,31 @@ class AutomationProgram:
 
     def execute_action1(self):
         """
-        Action1: Stop Active Actions Temporarily
-        - 현재 활성화된 액션(Action2, Action3)을 중지하고 비활성화
-        - 0.5초 후 중지된 액션들만 다시 활성화
+        Action1: Stop Active Actions
+        - 현재 실행 중인 액션들을 중지
+        - active 상태는 유지
         """
         if self.action1.active_var.get():
-            print("Executing Action1: Stopping active actions temporarily.")
+            print("Executing Action1: Stopping running actions.")
             
-            # 중지할 액션들을 저장할 리스트
-            self.active_actions_to_resume = []
-            
-            for action in self.managed_actions:
-                if action.active_var.get():
-                    self.active_actions_to_resume.append(action)
-                    
-                    # 중지 이벤트와 스레드 설정
-                    if action == self.action2 and self.action2_thread and self.action2_thread.is_alive():
-                        print("Stopping Action2's execution.")
-                        self.stop_event_action2.set()
-                        self.action2_thread.join()
-                        self.stop_event_action2.clear()
-                        # 액션 비활성화
-                        action.active_var.set(False)
-                        action.active_button.update_color('red')
-                    
-                    elif action == self.action3 and self.action3_thread and self.action3_thread.is_alive():
-                        print("Stopping Action3's execution.")
-                        self.stop_event_action3.set()
-                        self.action3_thread.join()
-                        self.stop_event_action3.clear()
-                        # 액션 비활성화
-                        action.active_var.set(False)
-                        action.active_button.update_color('red')
-
-                    elif action == self.action6 and self.action6_thread and self.action6_thread.is_alive():
-                        print("Stopping Action6's execution.")
-                        self.stop_event_action6.set()
-                        self.action6_thread.join()
-                        self.stop_event_action6.clear()
-                        # 액션 비활성화
-                        action.active_var.set(False)
-                        action.active_button.update_color('red')
-            
-            # 0.5초 후 중지된 액션들만 다시 활성화
-            self.root.after(500, self.resume_actions)
+            # 실행 중인 스레드 확인 및 중지
+            if self.action2_thread and self.action2_thread.is_alive():
+                print("Stopping Action2's execution.")
+                self.stop_event_action2.set()
+                self.action2_thread.join()
+                self.stop_event_action2.clear()
+                
+            if self.action3_thread and self.action3_thread.is_alive():
+                print("Stopping Action3's execution.")
+                self.stop_event_action3.set()
+                self.action3_thread.join()
+                self.stop_event_action3.clear()
+                
+            if self.action7_thread and self.action7_thread.is_alive():
+                print("Stopping Action7's execution.")
+                self.stop_event_action7.set()
+                self.action7_thread.join()
+                self.stop_event_action7.clear()
 
     def resume_actions(self):
         """
@@ -308,19 +289,19 @@ class AutomationProgram:
         """
         Action3: 626초마다 6,7,8 입력
         """
-        if self.action3.active_var.get():
-            print("Executing Action3: Periodic 6,7,8 input")
-            try:
-                last_time = 0
-                while not self.stop_event_action3.is_set():
-                    current_time = time.time()
-                    if current_time - last_time >= 626:
-                        pyautogui.typewrite(['6', '7', '8'], interval=0.02)
-                        last_time = current_time
-                        print("Executed 6,7,8 sequence")
-                    time.sleep(0.1)
-            except Exception as e:
-                print(f"Error during Action3 execution: {e}")
+        # if self.action3.active_var.get():
+        #     print("Executing Action3: Periodic 6,7,8 input")
+        #     try:
+        #         last_time = 0
+        #         while not self.stop_event_action3.is_set():
+        #             current_time = time.time()
+        #             if current_time - last_time >= 626:
+        #                 pyautogui.typewrite(['6', '7', '8'], interval=0.02)
+        #                 last_time = current_time
+        #                 print("Executed 6,7,8 sequence")
+        #             time.sleep(0.1)
+        #     except Exception as e:
+        #         print(f"Error during Action3 execution: {e}")
 
     def execute_action4(self):
         """
@@ -360,18 +341,18 @@ class AutomationProgram:
 
     def execute_action6(self):
         """
-        Action6: u4 입력
+        Action6: 무한 평타
         """
         if self.action6.active_var.get():
-            print("Executing Action2: 혼마 왼쪽 돌리기")
+            print("Executing Action6: 무한 평타")
             try:
                 while True:
                     if self.stop_event_action6.is_set():
-                        print("Action2 execution stopped.")
+                        print("Action6 execution stopped.")
                         break
-                    pyautogui.typewrite(['a'], interval=0.02)
+                    pyautogui.typewrite(['a'], interval=0.05)
             except Exception as e:
-                print(f"Error during Action2 execution: {e}")
+                print(f"Error during Action6 execution: {e}")
 
     def execute_action7(self):
         """

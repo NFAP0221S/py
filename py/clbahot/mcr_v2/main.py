@@ -223,50 +223,32 @@ class AutomationProgram:
 
     def execute_action1(self):
         """
-        Action1: Stop Active Actions Temporarily
-        - 현재 활성화된 액션(Action2, Action3)을 중지하고 비활성화
-        - 0.5초 후 중지된 액션들만 다시 활성화
+        Action1: Stop Active Actions
+        - 현재 실행 중인 액션들을 중지
+        - active 상태는 유지
         """
         if self.action1.active_var.get():
-            print("Executing Action1: Stopping active actions temporarily.")
+            print("Executing Action1: Stopping running actions.")
             
-            # 중지할 액션들을 저장할 리스트
-            self.active_actions_to_resume = []
-            
-            for action in self.managed_actions:
-                if action.active_var.get():
-                    self.active_actions_to_resume.append(action)
-                    
-                    # 중지 이벤트와 스레드 설정
-                    if action == self.action2 and self.action2_thread and self.action2_thread.is_alive():
-                        print("Stopping Action2's execution.")
-                        self.stop_event_action2.set()
-                        self.action2_thread.join()
-                        self.stop_event_action2.clear()
-                        # 액션 비활성화
-                        action.active_var.set(False)
-                        action.active_button.update_color('red')
-                    
-                    elif action == self.action3 and self.action3_thread and self.action3_thread.is_alive():
-                        print("Stopping Action3's execution.")
-                        self.stop_event_action3.set()
-                        self.action3_thread.join()
-                        self.stop_event_action3.clear()
-                        # 액션 비활성화
-                        action.active_var.set(False)
-                        action.active_button.update_color('red')
+            # 실행 중인 스레드 확인 및 중지
+            if self.action2_thread and self.action2_thread.is_alive():
+                print("Stopping Action2's execution.")
+                self.stop_event_action2.set()
+                self.action2_thread.join()
+                self.stop_event_action2.clear()
+                
+            if self.action3_thread and self.action3_thread.is_alive():
+                print("Stopping Action3's execution.")
+                self.stop_event_action3.set()
+                self.action3_thread.join()
+                self.stop_event_action3.clear()
+                
+            if self.action7_thread and self.action7_thread.is_alive():
+                print("Stopping Action7's execution.")
+                self.stop_event_action7.set()
+                self.action7_thread.join()
+                self.stop_event_action7.clear()
 
-                    elif action == self.action7 and self.action7_thread and self.action7_thread.is_alive():
-                        print("Stopping Action3's execution.")
-                        self.stop_event_action7.set()
-                        self.action7_thread.join()
-                        self.stop_event_action7.clear()
-                        # 액션 비활성화
-                        action.active_var.set(False)
-                        action.active_button.update_color('red')
-            
-            # 0.5초 후 중지된 액션들만 다시 활성화
-            self.root.after(500, self.resume_actions)
 
     def resume_actions(self):
         """

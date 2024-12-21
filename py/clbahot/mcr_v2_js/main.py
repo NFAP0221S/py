@@ -262,6 +262,12 @@ class AutomationProgram:
                 self.stop_event_action3.set()
                 self.action3_thread.join()
                 self.stop_event_action3.clear()
+
+            if self.action6_thread and self.action6_thread.is_alive():
+                print("Stopping Action6's execution.")
+                self.stop_event_action6.set()
+                self.action6_thread.join()
+                self.stop_event_action6.clear()
                 
             if self.action7_thread and self.action7_thread.is_alive():
                 print("Stopping Action7's execution.")

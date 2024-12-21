@@ -26,14 +26,9 @@ class CircularButton(tk.Canvas):
         self.bg = new_color
         self.draw_circle()
 
-    def on_click(self, x, y, button, pressed):
-        if button == mouse.Button.left and pressed:  # 왼쪽 버튼이 눌렸을 때
-            if self.action8.active_var.get():
-                print("Action8: Left Click Detected")
-                # Action8을 별도의 스레드에서 실행
-                if not (self.action8_thread and self.action8_thread.is_alive()):
-                    self.action8_thread = threading.Thread(target=self.execute_action8)
-                    self.action8_thread.start()
+    def on_click(self, event):
+        if self.command:
+            self.command()
 
 class ActionLow:
     def __init__(self, master, key='', description='', is_active=True, can_toggle=True):
@@ -98,6 +93,12 @@ class AutomationProgram:
         # 액션을 위한 프레임
         self.scrollable_frame = tk.Frame(self.root)
         self.scrollable_frame.pack(fill='both', expand=True)
+
+        # 키보드와 마우스 리스너 설정
+        self.keyboard_listener = keyboard.Listener(on_press=self.on_press)
+        self.mouse_listener = mouse.Listener(on_click=self.on_click)
+        self.keyboard_listener.start()
+        self.mouse_listener.start()
 
         # 액션1: 토글 버튼 없음, 동작 시 활성화된 액션들만 중지 후 재활성화
         self.action1 = ActionLow(
@@ -192,6 +193,15 @@ class AutomationProgram:
         # 키 리스너 설정
         self.listener = keyboard.Listener(on_press=self.on_press)
         self.listener.start()
+
+    def on_click(self, x, y, button, pressed):
+        if button == mouse.Button.left and pressed:  # 왼쪽 버튼이 눌렸을 때
+            if self.action8.active_var.get():
+                print("Action8: Left Click Detected")
+                # Action8을 별도의 스레드에서 실행
+                if not (self.action8_thread and self.action8_thread.is_alive()):
+                    self.action8_thread = threading.Thread(target=self.execute_action8)
+                    self.action8_thread.start()
 
     def save_configurations(self):
         configs = [

@@ -106,7 +106,7 @@ class AutomationProgram:
         # 액션2: 토글 버튼 있음, 활성화 시 키 입력으로 'uuuu6' 실행
         self.action2 = ActionLow(
             self.scrollable_frame, 
-            key='2',  # Action2의 키 (예: 's')
+            key='3',  # Action2의 키 (예: 's')
             description='투평', 
             is_active=True,
             can_toggle=True  # 토글 버튼 있음
@@ -284,14 +284,25 @@ class AutomationProgram:
         """
         Action2: 평
         """
+        # if self.action2.active_var.get():
+        #     print("Executing Action6: u4 input")
+        #     try:
+        #         # pyautogui.press('a')
+        #         # pyautogui.press('3')
+        #         pyautogui.typewrite(['u', 'a', 'u', 'a'], interval=0.02)
+        #     except Exception as e:
+        #         print(f"Error during Action6 execution: {e}")
+
         if self.action2.active_var.get():
-            print("Executing Action6: u4 input")
+            print("Executing Action2: Control + a press")
             try:
-                pyautogui.press('a')
-                pyautogui.press('3')
-                pyautogui.typewrite(['u', 'a', 'u', 'a'], interval=0.08)
+                keyboard_controller = keyboard.Controller()
+                with keyboard_controller.pressed(keyboard.Key.ctrl):  # ctrl 키를 누른 상태 유지
+                    keyboard_controller.press('a')  # a 키를 누름
+                    time.sleep(0.5)  # 0.5초 대기
+                    keyboard_controller.release('a')  # a 키를 뗌
             except Exception as e:
-                print(f"Error during Action6 execution: {e}")
+                print(f"Error during Action2 execution: {e}")
 
     def execute_action3(self):
         """

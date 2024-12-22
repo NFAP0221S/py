@@ -230,24 +230,33 @@ class AutomationProgram:
         if self.action1.active_var.get():
             print("Executing Action1: Stopping running actions.")
             
+            # 먼저 모든 stop 이벤트를 설정
+            self.stop_event_action2.set()
+            self.stop_event_action3.set()
+            self.stop_event_action7.set()
+            
             # 실행 중인 스레드 확인 및 중지
             if self.action2_thread and self.action2_thread.is_alive():
                 print("Stopping Action2's execution.")
-                self.stop_event_action2.set()
-                self.action2_thread.join()
-                self.stop_event_action2.clear()
+                self.action2_thread.join(timeout=1.0)  # 최대 1초 대기
                 
             if self.action3_thread and self.action3_thread.is_alive():
                 print("Stopping Action3's execution.")
-                self.stop_event_action3.set()
-                self.action3_thread.join()
-                self.stop_event_action3.clear()
+                self.action3_thread.join(timeout=1.0)  # 최대 1초 대기
                 
             if self.action7_thread and self.action7_thread.is_alive():
                 print("Stopping Action7's execution.")
-                self.stop_event_action7.set()
-                self.action7_thread.join()
-                self.stop_event_action7.clear()
+                self.action7_thread.join(timeout=1.0)  # 최대 1초 대기
+
+            # 모든 스레드가 종료된 후에 이벤트 초기화
+            self.stop_event_action2.clear()
+            self.stop_event_action3.clear()
+            self.stop_event_action7.clear()
+
+            # 스레드 핸들 초기화
+            self.action2_thread = None
+            self.action3_thread = None
+            self.action7_thread = None
 
 
     def resume_actions(self):
@@ -275,8 +284,7 @@ class AutomationProgram:
                         print("Action2 execution stopped.")
                         break
                     
-                    # pyautogui.typewrite(['6', 'left', 'enter'], interval=0.02)
-                    pyautogui.typewrite(['5', 'left', 'enter'], interval=0.02)
+                    pyautogui.typewrite(['7', 'left', 'enter'], interval=0.0005)
             except Exception as e:
                 print(f"Error during Action2 execution: {e}")
 
@@ -288,7 +296,7 @@ class AutomationProgram:
             print("Executing Action3: 77778")
             try:
                 pyautogui.press('esc')  # 키 누르기
-                pyautogui.typewrite(['7', 'left', 'enter'], interval=0.02)
+                pyautogui.typewrite(['6', 'left', 'enter'], interval=0.02)
                 # time.sleep(0.01)
             except Exception as e:
                 print(f"Error during Action3 execution: {e}")

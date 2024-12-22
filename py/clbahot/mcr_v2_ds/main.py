@@ -284,7 +284,7 @@ class AutomationProgram:
                         print("Action2 execution stopped.")
                         break
                     
-                    pyautogui.typewrite(['7', 'left', 'enter'], interval=0.0005)
+                    pyautogui.typewrite(['6', 'left', 'enter'], interval=0.0005)
             except Exception as e:
                 print(f"Error during Action2 execution: {e}")
 

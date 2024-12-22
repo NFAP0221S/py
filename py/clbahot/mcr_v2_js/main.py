@@ -386,7 +386,7 @@ class AutomationProgram:
                     if self.stop_event_action6.is_set():
                         print("Action6 execution stopped.")
                         break
-                    pyautogui.typewrite(['a'], interval=0.05)
+                    pyautogui.typewrite(['a'], interval=0.02)
             except Exception as e:
                 print(f"Error during Action6 execution: {e}")
 

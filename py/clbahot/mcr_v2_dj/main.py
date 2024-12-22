@@ -106,8 +106,8 @@ class AutomationProgram:
         # 액션2: 토글 버튼 있음, 활성화 시 키 입력으로 'uuuu6' 실행
         self.action2 = ActionLow(
             self.scrollable_frame, 
-            key='2',  # Action2의 키 (예: 's')
-            description='투평', 
+            key='1',  # Action2의 키 (예: 's')
+            description='필동동', 
             is_active=True,
             can_toggle=True  # 토글 버튼 있음
         )
@@ -262,10 +262,10 @@ class AutomationProgram:
         if self.action2.active_var.get():
             print("Executing Action2: 투평")
             try:
-                # pyautogui.typewrite(['a'], interval=0.02)
+                pyautogui.press('u')
                 pyautogui.press('a')
-                pyautogui.press('1')
-                pyautogui.typewrite(['u', 'a', 'u', 'a'], interval=0.08)
+                pyautogui.press('u')
+                pyautogui.press('a')
             except Exception as e:
                 print(f"Error during Action2 execution: {e}")
 
@@ -286,41 +286,41 @@ class AutomationProgram:
         """
         Action4: 자신 힐
         """
-        if self.action3.active_var.get():
-            print("Executing Action3: 77778")
-            try:
-                pyautogui.press('esc')  # 키 누르기
-                pyautogui.typewrite(['1', 'home', 'enter', '1', 'enter'], interval=0.02)
-                # time.sleep(0.01)
-            except Exception as e:
-                print(f"Error during Action3 execution: {e}")
+        # if self.action3.active_var.get():
+        #     print("Executing Action3: 77778")
+        #     try:
+        #         pyautogui.press('esc')  # 키 누르기
+        #         pyautogui.typewrite(['1', 'home', 'enter', '1', 'enter'], interval=0.02)
+        #         # time.sleep(0.01)
+        #     except Exception as e:
+        #         print(f"Error during Action3 execution: {e}")
 
     def execute_action5(self):
         """
         Action4: 자신 보무
         """
-        if self.action3.active_var.get():
-            print("Executing Action3: 77778")
-            try:
-                pyautogui.press('esc')  # 키 누르기
-                pyautogui.typewrite(['9', 'home', 'enter', '0', 'enter'], interval=0.02)
-                # time.sleep(0.01)
-            except Exception as e:
-                print(f"Error during Action3 execution: {e}")
+        # if self.action3.active_var.get():
+        #     print("Executing Action3: 77778")
+        #     try:
+        #         pyautogui.press('esc')  # 키 누르기
+        #         pyautogui.typewrite(['9', 'home', 'enter', '0', 'enter'], interval=0.02)
+        #         # time.sleep(0.01)
+        #     except Exception as e:
+        #         print(f"Error during Action3 execution: {e}")
 
     def execute_action6(self):
         """
         Action4: 탭탭 힐 보무
         """
-        if self.action3.active_var.get():
-            print("Executing Action3: 77778")
-            try:
-                pyautogui.press('tab')  # 키 누르기
-                pyautogui.press('tab')  # 키 누르기
-                pyautogui.typewrite(['1', '1', '9', '0'], interval=0.02)
-                # time.sleep(0.01)
-            except Exception as e:
-                print(f"Error during Action3 execution: {e}")
+        # if self.action3.active_var.get():
+        #     print("Executing Action3: 77778")
+        #     try:
+        #         pyautogui.press('tab')  # 키 누르기
+        #         pyautogui.press('tab')  # 키 누르기
+        #         pyautogui.typewrite(['1', '1', '9', '0'], interval=0.02)
+        #         # time.sleep(0.01)
+        #     except Exception as e:
+        #         print(f"Error during Action3 execution: {e}")
 
     def on_press(self, key):
         try:

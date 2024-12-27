@@ -279,7 +279,7 @@ class AutomationProgram:
                     
                     # 방향키가 눌려있지 않을 때만 실행
                     if not self.direction_key_pressed:
-                        pyautogui.typewrite(['6', 'left', 'enter'], interval=0.008)
+                        pyautogui.typewrite(['6', 'left', 'enter'], interval=0.015)
                     else:
                         # 방향키가 눌려있는 동안은 잠시 대기
                         time.sleep(0.01)
@@ -338,7 +338,7 @@ class AutomationProgram:
             print("Executing Action6: 탭탭 힐 보무")
             try:
                 pyautogui.press('esc')
-                pyautogui.typewrite(['9', 'home', 'enter', '0', 'enter'], interval=0.04)
+                pyautogui.typewrite(['9', 'home', 'enter', '0', 'enter'], interval=0.05)
                 pyautogui.press('tab')
                 pyautogui.press('tab')
                 pyautogui.typewrite(['9','0','1'], interval=0.04)

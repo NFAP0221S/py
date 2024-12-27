@@ -83,6 +83,9 @@ class AutomationProgram:
         self.root.title("Automation Program")
         self.root.geometry("500x400")  # 창 크기 조절
 
+        # 방향키 상태를 추적하기 위한 변수 추가
+        self.direction_key_pressed = False
+
         # 상단 프레임에 저장 버튼
         self.top_frame = tk.Frame(self.root)
         self.top_frame.pack(fill='x', padx=10, pady=5)
@@ -97,64 +100,64 @@ class AutomationProgram:
         # 액션1: 토글 버튼 없음, 동작 시 활성화된 액션들만 중지 후 재활성화
         self.action1 = ActionLow(
             self.scrollable_frame, 
-            key='-',  # Action1의 키 (예: 'a')
+            key='-',
             description='잠시 정지', 
             is_active=True,
-            can_toggle=False  # 버튼 없음
+            can_toggle=False
         )
 
-        # 액션2: 토글 버튼 있음, 활성화 시 키 입력으로 'uuuu6' 실행
+        # 액션2: 토글 버튼 있음
         self.action2 = ActionLow(
             self.scrollable_frame, 
-            key='[',  # Action2의 키 (예: 's')
+            key='[',
             description='혼마 왼쪽 무한돌리기', 
             is_active=True,
-            can_toggle=True  # 토글 버튼 있음
+            can_toggle=True
         )
 
-        # 액션3: 토글 버튼 있음, 활성화 시 키 입력으로 '77778' 실행
+        # 액션3: 토글 버튼 있음
         self.action3 = ActionLow(
             self.scrollable_frame, 
-            key=']',  # Action3의 키 (예: 'd')
+            key=']',
             description='혼마 왼쪽 한번 돌리기', 
-            is_active=True,  # 초기 상태 비활성화
-            can_toggle=True  # 토글 버튼 있음
+            is_active=True,
+            can_toggle=True
         )
 
-        # 액션4: 토글 버튼 있음, 활성화 시 키 입력으로 '77778' 실행
+        # 액션4: 토글 버튼 있음
         self.action4 = ActionLow(
             self.scrollable_frame, 
-            key='`',  # Action3의 키 (예: 'd')
+            key='`',
             description='자신 힐', 
-            is_active=True,  # 초기 상태 비활성화
-            can_toggle=True  # 토글 버튼 있음
+            is_active=True,
+            can_toggle=True
         )
 
-        # 액션5: 토글 버튼 있음, 활성화 시 키 입력으로 '77778' 실행
+        # 액션5: 토글 버튼 있음
         self.action5 = ActionLow(
             self.scrollable_frame, 
-            key='.',  # Action3의 키 (예: 'd')
+            key='.',
             description='자신 보무', 
-            is_active=True,  # 초기 상태 비활성화
-            can_toggle=True  # 토글 버튼 있음
+            is_active=True,
+            can_toggle=True
         )
 
-        # 액션6: 토글 버튼 있음, 활성화 시 키 입력으로 '77778' 실행
+        # 액션6: 토글 버튼 있음
         self.action6 = ActionLow(
             self.scrollable_frame, 
-            key='=',  # Action3의 키 (예: 'd')
+            key='=',
             description='탭탭 힐 보무', 
-            is_active=True,  # 초기 상태 비활성화
-            can_toggle=True  # 토글 버튼 있음
+            is_active=True,
+            can_toggle=True
         )
 
-         # 액션6: 토글 버튼 있음, 활성화 시 키 입력으로 '77778' 실행
+        # 액션7: 토글 버튼 있음
         self.action7 = ActionLow(
             self.scrollable_frame, 
-            key='\\',  # Action3의 키 (예: 'd')
+            key='\\',
             description='중독', 
-            is_active=True,  # 초기 상태 비활성화
-            can_toggle=True  # 토글 버튼 있음
+            is_active=True,
+            can_toggle=True
         )
 
         # 관리할 액션 목록
@@ -167,15 +170,18 @@ class AutomationProgram:
         self.stop_event_action5 = threading.Event()
         self.stop_event_action6 = threading.Event()
         self.stop_event_action7 = threading.Event()
-        self.action2_thread = None  # Thread handle for Action2
-        self.action3_thread = None  # Thread handle for Action3
-        self.action4_thread = None  # Thread handle for Action4
-        self.action5_thread = None  # Thread handle for Action4
-        self.action6_thread = None  # Thread handle for Action4
-        self.action7_thread = None  # Thread handle for Action4
+        self.action2_thread = None
+        self.action3_thread = None
+        self.action4_thread = None
+        self.action5_thread = None
+        self.action6_thread = None
+        self.action7_thread = None
 
-        # 키 리스너 설정
-        self.listener = keyboard.Listener(on_press=self.on_press)
+        # 키보드 리스너 설정 (press와 release 모두 감지)
+        self.listener = keyboard.Listener(
+            on_press=self.on_press,
+            on_release=self.on_release
+        )
         self.listener.start()
 
     def save_configurations(self):
@@ -238,15 +244,15 @@ class AutomationProgram:
             # 실행 중인 스레드 확인 및 중지
             if self.action2_thread and self.action2_thread.is_alive():
                 print("Stopping Action2's execution.")
-                self.action2_thread.join(timeout=1.0)  # 최대 1초 대기
+                self.action2_thread.join(timeout=1.0)
                 
             if self.action3_thread and self.action3_thread.is_alive():
                 print("Stopping Action3's execution.")
-                self.action3_thread.join(timeout=1.0)  # 최대 1초 대기
+                self.action3_thread.join(timeout=1.0)
                 
             if self.action7_thread and self.action7_thread.is_alive():
                 print("Stopping Action7's execution.")
-                self.action7_thread.join(timeout=1.0)  # 최대 1초 대기
+                self.action7_thread.join(timeout=1.0)
 
             # 모든 스레드가 종료된 후에 이벤트 초기화
             self.stop_event_action2.clear()
@@ -258,19 +264,6 @@ class AutomationProgram:
             self.action3_thread = None
             self.action7_thread = None
 
-
-    def resume_actions(self):
-        """
-        중지된 액션들을 다시 활성화
-        """
-        for action in self.active_actions_to_resume:
-            action.active_var.set(True)
-            action.active_button.update_color('green')
-            print(f"{action.desc_input.get()} is ready again.")
-        
-        # 리스트 초기화
-        self.active_actions_to_resume = []
-
     def execute_action2(self):
         """
         Action2: 혼마 왼쪽 무한 돌리기
@@ -278,13 +271,19 @@ class AutomationProgram:
         if self.action2.active_var.get():
             print("Executing Action2: 혼마 왼쪽 돌리기")
             try:
-                pyautogui.press('esc')  # 키 누르기
+                pyautogui.press('esc')
                 while True:
                     if self.stop_event_action2.is_set():
                         print("Action2 execution stopped.")
                         break
                     
-                    pyautogui.typewrite(['6', 'left', 'enter'], interval=0.0005)
+                    # 방향키가 눌려있지 않을 때만 실행
+                    if not self.direction_key_pressed:
+                        pyautogui.typewrite(['6', 'left', 'enter'], interval=0.0005)
+                    else:
+                        # 방향키가 눌려있는 동안은 잠시 대기
+                        time.sleep(0.01)
+                        
             except Exception as e:
                 print(f"Error during Action2 execution: {e}")
 
@@ -295,83 +294,79 @@ class AutomationProgram:
         if self.action3.active_var.get():
             print("Executing Action3: 77778")
             try:
-                pyautogui.press('esc')  # 키 누르기
+                pyautogui.press('esc')
                 pyautogui.typewrite(['6', 'left', 'enter'], interval=0.02)
-                # time.sleep(0.01)
             except Exception as e:
                 print(f"Error during Action3 execution: {e}")
-            # try:
-            #     pyautogui.press('esc')  # 키 누르기
-            #     while True:
-            #         if self.stop_event_action3.is_set():
-            #             print("Action2 execution stopped.")
-            #             break
-                    
-            #         # pyautogui.typewrite(['6', 'left', 'enter'], interval=0.02)
-            #         pyautogui.typewrite(['7', 'left', 'enter'], interval=0.02)
-            # except Exception as e:
-            #     print(f"Error during Action2 execution: {e}")
 
     def execute_action4(self):
         """
         Action4: 자신 힐
         """
         if self.action3.active_var.get():
-            print("Executing Action3: 77778")
+            print("Executing Action4: 자신 힐")
             try:
-                pyautogui.press('esc')  # 키 누르기
-                pyautogui.typewrite(['1', 'home', 'enter', '1', 'enter'], interval=0.02)
-                # time.sleep(0.01)
+                pyautogui.press('esc')
+                pyautogui.typewrite(['1', 'home', 'enter', '1', 'enter'], interval=0.04)
             except Exception as e:
-                print(f"Error during Action3 execution: {e}")
+                print(f"Error during Action4 execution: {e}")
 
     def execute_action5(self):
         """
-        Action4: 자신 보무
+        Action5: 자신 보무
         """
         if self.action3.active_var.get():
-            print("Executing Action3: 77778")
+            print("Executing Action5: 자신 보무")
             try:
-                pyautogui.press('esc')  # 키 누르기
-                pyautogui.typewrite(['9', 'home', 'enter', '0', 'enter'], interval=0.02)
-                # time.sleep(0.01)
+                pyautogui.press('esc')
+                pyautogui.typewrite(['9', 'home', 'enter', '0', 'enter'], interval=0.04)
+                pyautogui.press('tab')
+                pyautogui.press('tab')
+                pyautogui.typewrite(['9', '0'], interval=0.04)
             except Exception as e:
-                print(f"Error during Action3 execution: {e}")
+                print(f"Error during Action5 execution: {e}")
 
     def execute_action6(self):
         """
-        Action4: 탭탭 힐 보무
+        Action6: 탭탭 힐 보무
         """
         if self.action3.active_var.get():
-            print("Executing Action3: 77778")
+            print("Executing Action6: 탭탭 힐 보무")
             try:
-                pyautogui.press('tab')  # 키 누르기
-                pyautogui.press('tab')  # 키 누르기
+                pyautogui.press('tab')
+                pyautogui.press('tab')
                 pyautogui.typewrite(['1', '1', '9', '0'], interval=0.02)
-                # time.sleep(0.01)
             except Exception as e:
-                print(f"Error during Action3 execution: {e}")
+                print(f"Error during Action6 execution: {e}")
     
     def execute_action7(self):
         """
-        Action4: 탭탭 힐 보무
+        Action7: 중독
         """
         if self.action7.active_var.get():
-            print("Executing Action7: 혼마 왼쪽 돌리기")
+            print("Executing Action7: 중독")
             try:
-                pyautogui.press('esc')  # 키 누르기
+                pyautogui.press('esc')
                 while True:
                     if self.stop_event_action7.is_set():
-                        print("Action2 execution stopped.")
+                        print("Action7 execution stopped.")
                         break
                     
-                    # pyautogui.typewrite(['6', 'left', 'enter'], interval=0.02)
-                    pyautogui.typewrite(['6', 'left', 'enter'], interval=0.02)
+                    # 방향키가 눌려있지 않을 때만 실행
+                    if not self.direction_key_pressed:
+                        pyautogui.typewrite(['6', 'left', 'enter'], interval=0.02)
+                    else:
+                        # 방향키가 눌려있는 동안은 잠시 대기
+                        time.sleep(0.01)
             except Exception as e:
-                print(f"Error during Action2 execution: {e}")
+                print(f"Error during Action7 execution: {e}")
 
     def on_press(self, key):
         try:
+            # 방향키 감지
+            if key == keyboard.Key.left or key == keyboard.Key.right or key == keyboard.Key.up or key == keyboard.Key.down:
+                self.direction_key_pressed = True
+                
             if hasattr(key, 'char') and key.char is not None:
                 pressed_key = key.char.lower()  # 대소문자 구분 없이 처리
 
@@ -409,27 +404,27 @@ class AutomationProgram:
                     print("Action4 Key Pressed")
                     # Action4 실행 중인지 확인
                     if self.action4_thread and self.action4_thread.is_alive():
-                        print("Action5 is already running.")
+                        print("Action4 is already running.")
                     else:
-                        # Action3을 별도의 스레드에서 실행
+                        # Action4를 별도의 스레드에서 실행
                         self.action4_thread = threading.Thread(target=self.execute_action4)
                         self.action4_thread.start()
 
-                # Action6 키가 눌렸는지 확인                        
+                # Action5 키가 눌렸는지 확인                        
                 elif pressed_key == self.action5.key_input.get() and self.action5.active_var.get():
                     print("Action5 Key Pressed")
                     # Action5 실행 중인지 확인
                     if self.action5_thread and self.action5_thread.is_alive():
                         print("Action5 is already running.")
                     else:
-                        # Action5을 별도의 스레드에서 실행
+                        # Action5를 별도의 스레드에서 실행
                         self.action5_thread = threading.Thread(target=self.execute_action5)
                         self.action5_thread.start()
 
                 # Action6 키가 눌렸는지 확인                        
                 elif pressed_key == self.action6.key_input.get() and self.action6.active_var.get():
                     print("Action6 Key Pressed")
-                    # Action4 실행 중인지 확인
+                    # Action6 실행 중인지 확인
                     if self.action6_thread and self.action6_thread.is_alive():
                         print("Action6 is already running.")
                     else:
@@ -437,10 +432,10 @@ class AutomationProgram:
                         self.action6_thread = threading.Thread(target=self.execute_action6)
                         self.action6_thread.start()
 
-                 # Action7 키가 눌렸는지 확인                        
+                # Action7 키가 눌렸는지 확인                        
                 elif pressed_key == self.action7.key_input.get() and self.action7.active_var.get():
                     print("Action7 Key Pressed")
-                    # Action4 실행 중인지 확인
+                    # Action7 실행 중인지 확인
                     if self.action7_thread and self.action7_thread.is_alive():
                         print("Action7 is already running.")
                     else:
@@ -449,6 +444,11 @@ class AutomationProgram:
                         self.action7_thread.start()        
         except AttributeError:
             pass
+
+    def on_release(self, key):
+        # 방향키 release 감지
+        if key == keyboard.Key.left or key == keyboard.Key.right or key == keyboard.Key.up or key == keyboard.Key.down:
+            self.direction_key_pressed = False
 
 if __name__ == "__main__":
     root = tk.Tk()

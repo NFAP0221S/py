@@ -278,7 +278,7 @@ class AutomationProgram:
                 pyautogui.press('esc')
                 while not self.stop_event_action7.is_set():
                     if not self.arrow_key_pressed:  # 방향키가 눌려있지 않을 때만
-                        pyautogui.typewrite(['6', 'left', 'enter'], interval=0.02)
+                        pyautogui.typewrite(['7', 'left', 'enter'], interval=0.02)
                     else:
                         time.sleep(0.1)  # 방향키가 눌려있는 동안 대기
                 print("Action7 execution stopped.")

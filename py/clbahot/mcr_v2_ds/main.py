@@ -2,7 +2,7 @@ import tkinter as tk
 import pyautogui
 from pynput import keyboard
 import json
-import os
+import random
 import threading
 import time
 
@@ -136,8 +136,8 @@ class AutomationProgram:
         # 액션5: 토글 버튼 있음
         self.action5 = ActionLow(
             self.scrollable_frame, 
-            key='.',
-            description='자신 보무', 
+            key='1',
+            description='힐', 
             is_active=True,
             can_toggle=True
         )
@@ -146,7 +146,7 @@ class AutomationProgram:
         self.action6 = ActionLow(
             self.scrollable_frame, 
             key='=',
-            description='탭탭 힐 보무', 
+            description='나 보무 너 보무', 
             is_active=True,
             can_toggle=True
         )
@@ -154,8 +154,8 @@ class AutomationProgram:
         # 액션7: 토글 버튼 있음
         self.action7 = ActionLow(
             self.scrollable_frame, 
-            key='\\',
-            description='중독', 
+            key='4',
+            description='공증2', 
             is_active=True,
             can_toggle=True
         )
@@ -279,7 +279,7 @@ class AutomationProgram:
                     
                     # 방향키가 눌려있지 않을 때만 실행
                     if not self.direction_key_pressed:
-                        pyautogui.typewrite(['6', 'left', 'enter'], interval=0.0005)
+                        pyautogui.typewrite(['6', 'left', 'enter'], interval=0.008)
                     else:
                         # 방향키가 눌려있는 동안은 잠시 대기
                         time.sleep(0.01)
@@ -307,22 +307,26 @@ class AutomationProgram:
             print("Executing Action4: 자신 힐")
             try:
                 pyautogui.press('esc')
-                pyautogui.typewrite(['1', 'home', 'enter', '1', 'enter'], interval=0.04)
+                pyautogui.typewrite(['1', 'home', 'enter', '1', 'enter'], interval=0.05)
             except Exception as e:
                 print(f"Error during Action4 execution: {e}")
 
     def execute_action5(self):
         """
-        Action5: 자신 보무
+        Action5: 힐
         """
         if self.action3.active_var.get():
-            print("Executing Action5: 자신 보무")
+            print("Executing Action5: 힐")
             try:
-                pyautogui.press('esc')
-                pyautogui.typewrite(['9', 'home', 'enter', '0', 'enter'], interval=0.04)
-                pyautogui.press('tab')
-                pyautogui.press('tab')
-                pyautogui.typewrite(['9', '0'], interval=0.04)
+                # 5, 6, 7 중에서 랜덤하게 횟수 선택
+                press_count = random.randint(5, 7)
+                print(f"Pressing '1' {press_count} times")
+                
+                # 선택된 횟수만큼 '1' 키 입력
+                for _ in range(press_count):
+                    pyautogui.press('1')
+                    time.sleep(0.02)  # 너무 빠른 입력 방지
+                    
             except Exception as e:
                 print(f"Error during Action5 execution: {e}")
 
@@ -333,33 +337,24 @@ class AutomationProgram:
         if self.action3.active_var.get():
             print("Executing Action6: 탭탭 힐 보무")
             try:
+                pyautogui.press('esc')
+                pyautogui.typewrite(['9', 'home', 'enter', '0', 'enter'], interval=0.04)
                 pyautogui.press('tab')
                 pyautogui.press('tab')
-                pyautogui.typewrite(['1', '1', '9', '0'], interval=0.02)
+                pyautogui.typewrite(['9','0','1'], interval=0.04)
             except Exception as e:
                 print(f"Error during Action6 execution: {e}")
     
     def execute_action7(self):
         """
-        Action7: 중독
+        Action7: 공증2
         """
         if self.action7.active_var.get():
-            print("Executing Action7: 중독")
+            print("Executing Action7: 공증2")
             try:
-                pyautogui.press('esc')
-                while True:
-                    if self.stop_event_action7.is_set():
-                        print("Action7 execution stopped.")
-                        break
-                    
-                    # 방향키가 눌려있지 않을 때만 실행
-                    if not self.direction_key_pressed:
-                        pyautogui.typewrite(['6', 'left', 'enter'], interval=0.02)
-                    else:
-                        # 방향키가 눌려있는 동안은 잠시 대기
-                        time.sleep(0.01)
+                pyautogui.press('4')
             except Exception as e:
-                print(f"Error during Action7 execution: {e}")
+                print(f"Error during Action6 execution: {e}")
 
     def on_press(self, key):
         try:

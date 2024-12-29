@@ -2,3 +2,6 @@ openai==0.27.0
 httpx==0.24.0
 pandas
 openpyxl
+pyautogui
+opencv-python
+numpy==1.23.0

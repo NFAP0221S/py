@@ -160,8 +160,8 @@ class AutomationProgram:
         # 액션7: 토글 버튼 있음
         self.action7 = ActionLow(
             self.scrollable_frame, 
-            key='4',
-            description='공증2', 
+            key='1',
+            description='힐', 
             is_active=True,
             can_toggle=True
         )
@@ -358,12 +358,13 @@ class AutomationProgram:
         """
         Action7: 공증2
         """
-        # if self.action7.active_var.get():
-        #     print("Executing Action7: 공증2")
-        #     try:
-        #         pyautogui.press('4')
-        #     except Exception as e:
-        #         print(f"Error during Action6 execution: {e}")
+        if self.action7.active_var.get():
+            print("Executing Action7: 공증2")
+            try:
+                time.sleep(0.2)
+                pyautogui.press('4')
+            except Exception as e:
+                print(f"Error during Action6 execution: {e}")
 
     def on_press(self, key):
         try:

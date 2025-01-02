@@ -262,10 +262,7 @@ class AutomationProgram:
         if self.action2.active_var.get():
             print("Executing Action2: 투평")
             try:
-                pyautogui.press('u')
-                pyautogui.press('a')
-                pyautogui.press('u')
-                pyautogui.press('a')
+                pyautogui.typewrite(['u', 'a','u', 'a'], interval=0.05)
             except Exception as e:
                 print(f"Error during Action2 execution: {e}")
 
@@ -278,7 +275,7 @@ class AutomationProgram:
             try:
                 # pyautogui.press('2')
                 # pyautogui.press('a')
-                pyautogui.typewrite(['2', 'a'], interval=0.05)
+                pyautogui.typewrite(['2', 'a'], interval=0.02)
             except Exception as e:
                 print(f"Error during Action3 execution: {e}")
 
@@ -286,14 +283,16 @@ class AutomationProgram:
         """
         Action4: 자신 힐
         """
-        # if self.action3.active_var.get():
-        #     print("Executing Action3: 77778")
-        #     try:
-        #         pyautogui.press('esc')  # 키 누르기
-        #         pyautogui.typewrite(['1', 'home', 'enter', '1', 'enter'], interval=0.02)
-        #         # time.sleep(0.01)
-        #     except Exception as e:
-        #         print(f"Error during Action3 execution: {e}")
+        if self.action2.active_var.get():
+            print("Executing Action2: Control + a press")
+            try:
+                keyboard_controller = keyboard.Controller()
+                with keyboard_controller.pressed(keyboard.Key.ctrl):  # ctrl 키를 누른 상태 유지
+                    keyboard_controller.press('a')  # a 키를 누름
+                    time.sleep(0.5)  # 0.5초 대기
+                    keyboard_controller.release('a')  # a 키를 뗌
+            except Exception as e:
+                print(f"Error during Action2 execution: {e}")
 
     def execute_action5(self):
         """

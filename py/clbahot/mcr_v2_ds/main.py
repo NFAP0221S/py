@@ -160,6 +160,7 @@ class AutomationProgram:
         # 액션7: 토글 버튼 있음
         self.action7 = ActionLow(
             self.scrollable_frame, 
+            # key='\\',
             key='1',
             description='힐', 
             is_active=True,
@@ -245,6 +246,7 @@ class AutomationProgram:
             # 먼저 모든 stop 이벤트를 설정
             self.stop_event_action2.set()
             self.stop_event_action3.set()
+            self.stop_event_action5.set()
             self.stop_event_action7.set()
             
             # 실행 중인 스레드 확인 및 중지
@@ -255,6 +257,10 @@ class AutomationProgram:
             if self.action3_thread and self.action3_thread.is_alive():
                 print("Stopping Action3's execution.")
                 self.action3_thread.join(timeout=1.0)
+
+            if self.action5_thread and self.action5_thread.is_alive():  # Action5 추가
+                print("Stopping Action5's execution.")
+                self.action5_thread.join(timeout=1.0)
                 
             if self.action7_thread and self.action7_thread.is_alive():
                 print("Stopping Action7's execution.")
@@ -263,11 +269,13 @@ class AutomationProgram:
             # 모든 스레드가 종료된 후에 이벤트 초기화
             self.stop_event_action2.clear()
             self.stop_event_action3.clear()
+            self.stop_event_action5.clear()  
             self.stop_event_action7.clear()
 
             # 스레드 핸들 초기화
             self.action2_thread = None
             self.action3_thread = None
+            self.action5_thread = None
             self.action7_thread = None
 
     def execute_action2(self):
@@ -286,6 +294,7 @@ class AutomationProgram:
                     # 방향키가 눌려있지 않을 때만 실행
                     if not self.direction_key_pressed:
                         pyautogui.typewrite(['6', 'left', 'enter'], self.type_002_interval)
+                        # pyautogui.typewrite(['9', 'left', 'enter', '0', 'enter'], self.type_008_interval)
                     else:
                         # 방향키가 눌려있는 동안은 잠시 대기
                         time.sleep(0.01)
@@ -317,25 +326,45 @@ class AutomationProgram:
             except Exception as e:
                 print(f"Error during Action4 execution: {e}")
 
+    # def execute_action5(self):
+    #     """
+    #     Action5: 힐
+    #     """
+        # if self.action3.active_var.get():
+        #     print("Executing Action5: 힐")
+        #     try:
+        #         #6, 7 중에서 랜덤하게 횟수 선택
+        #         press_count = random.randint(3, 4)
+        #         print(f"Pressing '1' {press_count} times")
+                
+        #         # 선택된 횟수만큼 '1' 키 입력
+        #         for _ in range(press_count):
+        #             pyautogui.press('1')
+        #             # time.sleep(0.02)  # 너무 빠른 입력 방지
+        #         # pyautogui.press('1')
+        #         # pyautogui.press('1')
+        #         # pyautogui.press('1')
+        #         pyautogui.press('4')
+        #     except Exception as e:
+        #         print(f"Error during Action5 execution: {e}")
+
     def execute_action5(self):
         """
-        Action5: 힐
+        Action5: 연속 힐
         """
-        if self.action3.active_var.get():
-            print("Executing Action5: 힐")
+        if self.action5.active_var.get():
+            print("Executing Action5: 연속 힐")
             try:
-                #6, 7 중에서 랜덤하게 횟수 선택
-                press_count = random.randint(3, 4)
-                print(f"Pressing '1' {press_count} times")
-                
-                # 선택된 횟수만큼 '1' 키 입력
-                for _ in range(press_count):
-                    pyautogui.press('1')
-                    # time.sleep(0.02)  # 너무 빠른 입력 방지
-                # pyautogui.press('1')
-                # pyautogui.press('1')
-                # pyautogui.press('1')
-                pyautogui.press('4')
+                while True:
+                    if self.stop_event_action5.is_set():  # set() 대신 is_set() 사용
+                        print("Action5 execution stopped.")
+                        break
+                    
+                    if not self.direction_key_pressed:
+                        pyautogui.typewrite(['1', '1', '4'], self.type_002_interval)
+                    else:
+                        time.sleep(0.01)
+                        
             except Exception as e:
                 print(f"Error during Action5 execution: {e}")
 
@@ -356,15 +385,26 @@ class AutomationProgram:
     
     def execute_action7(self):
         """
-        Action7: 공증2
+        Action7: 단체보무
         """
-        if self.action7.active_var.get():
-            print("Executing Action7: 공증2")
-            try:
-                time.sleep(0.2)
-                pyautogui.press('4')
-            except Exception as e:
-                print(f"Error during Action6 execution: {e}")
+        # if self.action2.active_var.get():
+            # print("Executing Action2: 혼마 왼쪽 돌리기")
+            # try:
+                # pyautogui.press('4')
+                # pyautogui.press('esc')
+                # while True:
+                #     if self.stop_event_action2.is_set():
+                #         print("Action2 execution stopped.")
+                #         break
+                    
+                #     # 방향키가 눌려있지 않을 때만 실행
+                #     if not self.direction_key_pressed:
+                #         pyautogui.typewrite(['9', 'left', 'enter', '0', 'enter'], self.type_008_interval)
+                #     else:
+                #         time.sleep(0.01)
+                        
+            # except Exception as e:
+                # print(f"Error during Action2 execution: {e}")
 
     def on_press(self, key):
         try:

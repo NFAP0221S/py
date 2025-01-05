@@ -86,8 +86,10 @@ class AutomationProgram:
 
         # 운영체제 확인 및 interval 설정
         system = platform.system()
-        self.type_008_interval = 0.08 if system == 'Windows' else 0.02
+        self.type_008_interval = 0.09 if system == 'Windows' else 0.02
+        self.type_004_interval = 0.04 if system == 'Windows' else 0.005
         self.type_002_interval = 0.02 if system == 'Windows' else 0.005
+        self.type_0008_interval = 0.008 if system == 'Windows' else 0.005
 
         # 방향키 상태를 추적하기 위한 변수 추가
         self.direction_key_pressed = False
@@ -293,7 +295,7 @@ class AutomationProgram:
                     
                     # 방향키가 눌려있지 않을 때만 실행
                     if not self.direction_key_pressed:
-                        pyautogui.typewrite(['6', 'left', 'enter'], self.type_002_interval)
+                        pyautogui.typewrite(['6', 'left', 'enter'], self.type_004_interval)
                         # pyautogui.typewrite(['9', 'left', 'enter', '0', 'enter'], self.type_008_interval)
                     else:
                         # 방향키가 눌려있는 동안은 잠시 대기
@@ -326,28 +328,6 @@ class AutomationProgram:
             except Exception as e:
                 print(f"Error during Action4 execution: {e}")
 
-    # def execute_action5(self):
-    #     """
-    #     Action5: 힐
-    #     """
-        # if self.action3.active_var.get():
-        #     print("Executing Action5: 힐")
-        #     try:
-        #         #6, 7 중에서 랜덤하게 횟수 선택
-        #         press_count = random.randint(3, 4)
-        #         print(f"Pressing '1' {press_count} times")
-                
-        #         # 선택된 횟수만큼 '1' 키 입력
-        #         for _ in range(press_count):
-        #             pyautogui.press('1')
-        #             # time.sleep(0.02)  # 너무 빠른 입력 방지
-        #         # pyautogui.press('1')
-        #         # pyautogui.press('1')
-        #         # pyautogui.press('1')
-        #         pyautogui.press('4')
-        #     except Exception as e:
-        #         print(f"Error during Action5 execution: {e}")
-
     def execute_action5(self):
         """
         Action5: 연속 힐
@@ -355,15 +335,19 @@ class AutomationProgram:
         if self.action5.active_var.get():
             print("Executing Action5: 연속 힐")
             try:
-                while True:
-                    if self.stop_event_action5.is_set():  # set() 대신 is_set() 사용
-                        print("Action5 execution stopped.")
-                        break
-                    
-                    if not self.direction_key_pressed:
-                        pyautogui.typewrite(['1', '1', '4'], self.type_002_interval)
-                    else:
-                        time.sleep(0.01)
+               while True:
+                if self.stop_event_action5.is_set():
+                    print("Action5 execution stopped.")
+                    break
+                
+                if not self.direction_key_pressed:
+                    # 1의 개수를 랜덤하게 선택 (3 또는 4)
+                    ones_count = random.choice([3, 4])
+                    # 선택된 개수만큼 '1'을 리스트에 추가하고 마지막에 '4' 추가
+                    keys = ['1'] * ones_count + ['4']
+                    pyautogui.typewrite(keys, self.type_0008_interval)
+                else:
+                    time.sleep(0.01)
                         
             except Exception as e:
                 print(f"Error during Action5 execution: {e}")

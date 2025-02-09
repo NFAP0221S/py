@@ -3,7 +3,7 @@ import time
 import keyboard  # keyboard 라이브러리 추가
 
 t = 0.2
-c = 20
+c = 12
 for _ in range(c):
     if keyboard.is_pressed('space'):  # 스페이스바가 눌렸는지 확인
         print("스페이스바가 눌러져 프로그램을 종료합니다.")
